@@ -5,8 +5,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
 	`created` datetime NOT NULL DEFAULT '0000-00-00 00:00',
     `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
-	KEY `ip` (`ip`),
-	KEY `name` (`name`)
+	KEY `ip` (`ip`)
 )  ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE IF NOT EXISTS `seg` (
