@@ -76,8 +76,8 @@
 	<? endif; ?>
 
 	<script>
-		var key = "<?=$key;?>";
-		var access = "<?=$access;?>";
+		key = "<?=$key;?>";
+		access = "<?=$access;?>";
 	</script>
 
 </section>

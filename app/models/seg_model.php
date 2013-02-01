@@ -70,7 +70,7 @@ class Seg_model extends CI_Model {
 
 			if(!is_null($group_id)) $new_entry['group_id'] = $group_id;
 
-			$this->db->insert($this->table, $new_entry);
+			$result['query'] = $this->db->insert($this->table, $new_entry);
 			$result['new_entry_id'] = $this->db->insert_id();
 			
 			if(!is_null($group_id))
@@ -109,7 +109,7 @@ class Seg_model extends CI_Model {
 				// wrap up current seg 
 				$this->db->where("(group_id=".$group_id." OR id=".$group_id.") 
 				                   AND project_id=".$project_id." AND completed IS NULL");
-			    $this->db->update($this->table, array('completed' => $current_time) );
+			    $result['query'] = $this->db->update($this->table, array('completed' => $current_time) );
 			}
 		}
 		

@@ -97,7 +97,7 @@ var Events = {
 		.done(function(data) {
 			var result = JSON.parse(data);
 			
-			if(result.query)
+			if(typeof result !== "undefined" && result.query)
 			{
 				editform.fadeOut(250,function(){
 					memo = strip_tags(memo);
@@ -141,8 +141,6 @@ var Events = {
 			
 			if(typeof result !== "undefined" && result.query)
 			{
-				
-				
 				formbutton.html('<i class="icon-ok-sign"></i>');
 				message.html('Saved.').slideDown();
 				h2.fadeOut(400,function(){
@@ -203,7 +201,7 @@ var Events = {
 			.done(function(data) {
 				var result = JSON.parse(data);
 				
-				if(result.query)
+				if(typeof result !== "undefined" && result.query)
 				{
 					// subtract time from total
 					var totalele = $('li.total');
@@ -242,25 +240,26 @@ var Events = {
 		.done(function(data) {
 			var result = JSON.parse(data);
 			
-			ajaxdebug(data);
-			
-			// timer
-			seg.find('.time_logged')
-				.addClass('timing')
-				.attr('data-count',result.time_logged)
-				.html(DateHelper.seconds_to_human(result.time_logged));
+			if(typeof result !== "undefined" && result.query)
+			{
+				// timer
+				seg.find('.time_logged')
+					.addClass('timing')
+					.attr('data-count',result.time_logged)
+					.html(DateHelper.seconds_to_human(result.time_logged));
 				
-			// stop button
-			if(seg.is(':first-child')) seg.find('.seg-stop')
-				.fadeOut(400,function(){
-					seg.find('.seg-stop').css('visibility','hidden').show();
-				});
+				// stop button
+				if(seg.is(':first-child')) seg.find('.seg-stop')
+					.fadeOut(400,function(){
+						seg.find('.seg-stop').css('visibility','hidden').show();
+					});
 			
-			// play/pause
-			var pauselink = $(playlink.outerHTML().replace(/play/g,'pause')).hide();
-			playlink.replaceWith(pauselink);
-			pauselink.fadeIn();
-			pauselink.click(Events.pause_seg);
+				// play/pause
+				var pauselink = $(playlink.outerHTML().replace(/play/g,'pause')).hide();
+				playlink.replaceWith(pauselink);
+				pauselink.fadeIn();
+				pauselink.click(Events.pause_seg);
+			}
 		});
 		
 		return false;
@@ -273,25 +272,26 @@ var Events = {
 		.done(function(data) {
 			var result = JSON.parse(data);
 			
-			ajaxdebug(data);
+			if(typeof result !== "undefined" && result.query)
+			{
+				// timer
+				seg.find('.time_logged')
+					.removeClass('timing')
+					.attr('data-count',result.time_logged)
+					.html(DateHelper.seconds_to_human(result.time_logged));
 			
-			// timer
-			seg.find('.time_logged')
-				.removeClass('timing')
-				.attr('data-count',result.time_logged)
-				.html(DateHelper.seconds_to_human(result.time_logged));
+				// stop button
+				if(seg.is(':first-child')) seg.find('.seg-stop')
+					.hide()
+					.css('visibility','visible')
+					.fadeIn();
 			
-			// stop button
-			if(seg.is(':first-child')) seg.find('.seg-stop')
-				.hide()
-				.css('visibility','visible')
-				.fadeIn();
-			
-			// play/pause
-			var playlink = $(pauselink.outerHTML().replace(/pause/g,'play')).hide();
-			pauselink.replaceWith(playlink);
-			playlink.fadeIn();
-			playlink.click(Events.play_seg);
+				// play/pause
+				var playlink = $(pauselink.outerHTML().replace(/pause/g,'play')).hide();
+				pauselink.replaceWith(playlink);
+				playlink.fadeIn();
+				playlink.click(Events.play_seg);
+			}
 		});
 		
 		return false;
