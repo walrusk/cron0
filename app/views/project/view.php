@@ -8,7 +8,10 @@
 		<ul>
 		<? if(!empty($segments)): ?>
 			<?  $days = array(); 
-			  foreach($segments as $i => $seg):	?>
+			    $total = 0;
+			  foreach($segments as $i => $seg):	
+				$total += $seg->time_logged;
+					?>
 				<?if($i==0 && $seg->focus==0): ?>
 					<li class="nofocus">
 						<? if(empty($access)): ?>
@@ -58,6 +61,11 @@
 				</span>
 			</li>
 		<? endif; ?>
+		<? if(count($segments) > 1): ?>
+			<li class="total" data-count="<?=$total?>">
+				<strong>Total</strong><i class="icon-circle-arrow-right"></i><span><?= seconds_to_human($total); ?></span>
+			</li>
+		<? endif; ?>
 		</ul>
 	</div>
 	
@@ -68,8 +76,8 @@
 	<? endif; ?>
 
 	<script>
-		var key = '<?=$key;?>';
-		var access = '<?=$access;?>';
+		var key = "<?=$key;?>";
+		var access = "<?=$access;?>";
 	</script>
 
 </section>

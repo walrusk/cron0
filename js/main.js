@@ -41,13 +41,22 @@ var DateHelper = {
 
 var Events = {
 	timing_interval: function(incr){
+		// increment each counter
 		$('.timing').each(function(){
-			var count = parseInt($(this).attr('data-count'));
+			var ele = $(this);
+			var count = parseInt(ele.attr('data-count'));
 			if(incr) count++;
-			$(this).attr('data-count',count);
+			ele.attr('data-count',count);
 
-			$(this).html(DateHelper.seconds_to_human(count));
+			ele.html(DateHelper.seconds_to_human(count));
 		});
+		
+		// increment total
+		var totalele = $('li.total');
+		var total = parseInt(totalele.attr('data-count'));
+		if(incr) total += $('.timing').length;
+		totalele.attr('data-count',total);
+		$('li.total > span').html(DateHelper.seconds_to_human(total));
 		
 		// check to see if the page just woke up
 		var currentTime = (new Date()).getTime();
@@ -194,14 +203,22 @@ var Events = {
 				
 				if(result.query)
 				{
+					// subtract time from total
+					var totalele = $('li.total');
+					var total = parseInt(totalele.attr('data-count'));
+					total -= parseInt(seg.find('.time_logged').attr('data-count'));
+					totalele.attr('data-count',total);
+					$('li.total > span').html(DateHelper.seconds_to_human(total));
+					
+					// slide up and remove heading if this was the last seg underneath it
 					var segheading = seg.prev('.heading');
 					if(segheading.length > 0 && (seg.is(':last-child') || seg.next('.heading').length > 0))
 						segheading.slideUp(400,function(){ segheading.remove(); });
-					seg.slideUp(400,function(){ seg.remove(); });
 					
-
+					// slide up and remove segment
+					seg.slideUp(400,function(){ seg.remove(); });
 				}
-				else // failed delete
+				else // failed delete, reverse states
 				{
 					// show actions
 					deletelink.fadeIn();
