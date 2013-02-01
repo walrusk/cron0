@@ -2,7 +2,7 @@ var intervalVar;
 var lastTime = (new Date()).getTime();
 
 $(document).ready(function(){
-	if(access == "")
+	if(typeof access !== "undefined" && access == "")
 	{
 		// attach events for ajax editing
 		$('span.edit-memo,a.edit-memo').click(Events.edit_memo_link);
