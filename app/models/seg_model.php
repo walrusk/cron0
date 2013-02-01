@@ -154,6 +154,8 @@ class Seg_model extends CI_Model {
 	{
 		$project_id = $this->alpha->id($key, 'editable');
 		
+		$memo = $this->cleanInput($memo);
+		
 		$sql = "UPDATE ".$this->table."
 				SET memo=".$this->db->escape($memo)."
 				WHERE project_id=".$project_id." AND (group_id=".$group_id." OR id=".$group_id.")";
@@ -173,5 +175,18 @@ class Seg_model extends CI_Model {
 		return array(
 			'query' => $this->db->query($sql)
 		);
-	}	
+	}
+	
+	private function cleanInput($input)
+	{
+		$search = array(
+			'@<script[^>]*?>.*?</script>@si',   // Strip out javascript
+			'@<[\/\!]*?[^<>]*?>@si',            // Strip out HTML tags
+			'@<style[^>]*?>.*?</style>@siU',    // Strip style tags properly
+			'@<![\s\S]*?--[ \t\n\r]*>@'         // Strip multi-line comments
+		);
+
+		$output = preg_replace($search, '', $input);
+		return $output;
+	}
 }
