@@ -100,6 +100,7 @@ var Events = {
 			if(result.query)
 			{
 				editform.fadeOut(250,function(){
+					memo = strip_tags(memo);
 					var editlink = $('<span class="edit-memo" title="Click to edit memo." style="display:none;">'+memo+'</span>');
 					if(memo == "") editlink = $('<a href="memo" class="edit-memo" title="Click to edit memo." style="display:none;"><i class="icon-paper-clip"></i></a>');
 
@@ -138,14 +139,15 @@ var Events = {
 		.done(function(data) {
 			var result = JSON.parse(data);
 			
-			ajaxdebug(data);
-			
 			if(typeof result !== "undefined" && result.query)
 			{
+				
+				
 				formbutton.html('<i class="icon-ok-sign"></i>');
 				message.html('Saved.').slideDown();
 				h2.fadeOut(400,function(){
-					h2.html(newtitle);
+					h2.html(strip_tags(newtitle));
+					
 					h2.fadeIn();
 				})
 			}
@@ -338,6 +340,13 @@ function ajaxdebug(data)
 		alert(data);
 	else
 		console.log(result);
+}
+
+function strip_tags(data)
+{
+	var div = document.createElement("div");
+	div.innerHTML = data;
+	return div.textContent || div.innerText || "";	
 }
 
 // error handling for JSON.parse
