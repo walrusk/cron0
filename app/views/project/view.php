@@ -49,7 +49,7 @@
 						<? if(empty($seg->memo) && empty($access)): ?>
 							<a href="memo" class="edit-memo" title="Click to edit memo."><i class="icon-paper-clip"></i></a>
 						<? else: ?>
-							<span class="edit-memo" title="Click to edit memo."><?= $seg->memo; ?></span>
+							<span class="edit-memo" title="<?= empty($access) ? 'Click to edit memo.' : 'memo' ?>"><?= $seg->memo; ?></span>
 						<? endif; ?>
 					</span>
 				</li>
